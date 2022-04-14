@@ -32,10 +32,15 @@ async def start_message(message: Message):
 async def trying_to_get_link(message: Message):
     link = message.text
     chat_id = message.chat.id
-    true_link = re.findall(r'((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:['
+    try:
+        true_link = re.findall(r'((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:['
                 r'\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$', link)
-    true_static = static + true_link[0][5]
-    await bot.send_message(chat_id, f'Ваша ссылка скачивание: {true_static}')
+        true_static = static + true_link[0][5]
+        await bot.send_message(chat_id, f'Ваша ссылка скачивание: {true_static}')
+    except:
+        await bot.send_message(chat_id, 'Скидывай нормальную ссылку')
+    finally:
+        await start_message(message)
 
 
 executor.start_polling(dp, skip_updates=True)
