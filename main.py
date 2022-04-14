@@ -15,6 +15,7 @@ dp = Dispatcher(bot)
 
 static = 'https://www.y2mate.com/ru/youtube/'
 
+
 @dp.message_handler(commands=['start'])
 async def command_start(message: Message):
     chat_id = message.chat.id
@@ -34,12 +35,12 @@ async def trying_to_get_link(message: Message):
     chat_id = message.chat.id
     try:
         true_link = re.findall(r'((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:['
-                r'\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$', link)
+                               r'\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$', link)
         true_static = static + true_link[0][5]
         await bot.send_message(chat_id, f'Ваша ссылка скачивание: {true_static}')
-    except:
-        await bot.send_message(chat_id, 'Скидывай нормальную ссылку')
-    finally:
+        await start_message(message)
+    except :
+        await bot.send_message(chat_id, 'Не валидная ссылка. Попробуйте похожую.')
         await start_message(message)
 
 
